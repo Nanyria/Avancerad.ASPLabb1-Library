@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using SUT23LibraryProj.Data;
 using System;
 
 namespace SUT23LibraryProj
@@ -18,8 +19,7 @@ namespace SUT23LibraryProj
             builder.Services.AddSwaggerGen();
 
             //Register DB provider
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionToDB")));
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionToDB")));
 
             var app = builder.Build();
 
