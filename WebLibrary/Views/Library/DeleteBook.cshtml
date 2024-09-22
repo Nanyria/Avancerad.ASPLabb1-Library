@@ -1,0 +1,69 @@
+﻿@model BookDTO
+
+
+<h1>Delete Book from Library</h1>
+
+
+<div>
+    <form asp-action="DeleteBook">
+        <input asp-for="BookID" hidden />
+
+        <div class="container border p-3">
+            <hr />
+            <div class="row">
+
+                <div class="col-2">
+                    <label asp-for="Title" class="control-label pt-2" style="font-size:20px"></label>
+                </div>
+                <div class="col-10 pb-3">
+                    <input asp-for="Title" disabled class="form-control" />
+                </div>
+
+
+                <div class="col-2">
+                    <label asp-for="Author" class="control-label pt-2" style="font-size:20px"></label>
+                </div>
+                <div class="col-10 pb-3">
+                    <input asp-for="Author" disabled class="form-control" />
+                </div>
+
+                <div class="col-2">
+                    <label asp-for="Genre" class="control-label pt-2" style="font-size:20px"></label>
+                </div>
+                <div class="col-10 pb-3">
+                    <input asp-for="Genre" disabled class="form-control" />
+                </div>
+
+                <div class="col-2">
+                    <label asp-for="BookDescription" class="control-label pt-2" style="font-size:20px"></label>
+                </div>
+                <div class="col-10 pb-3">
+                    <input asp-for="BookDescription" disabled class="form-control" />
+                </div>
+
+
+                <div class="col-2">
+                    <label asp-for="PublicationYear" class="control-label pt-2" style="font-size:20px"></label>
+                </div>
+                <div class="col-10 pb-3">
+                    <input asp-for="PublicationYear" disabled class="form-control" />
+                </div>
+
+                <div class="col-2">
+                    <label asp-for="IsInStock" class="control-label pt-2" style="font-size:20px"></label>
+                </div>
+                <div class="col-10 pb-3">
+                    <input asp-for="IsInStock" type="checkbox" disabled class="form-check-input" />
+                </div>
+
+
+
+                <div class="col-5">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    <a asp-action="LibraryIndex">Back to View all Books</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

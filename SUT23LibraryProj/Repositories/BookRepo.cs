@@ -15,7 +15,8 @@ namespace SUT23LibraryProj.Repositories
 
         public async Task CreateBookAsync(Book book)
         {
-            _db.Books.Add(book);
+            //Borde det inte vara await på något sätt här?
+            await _db.Books.AddAsync(book);
         }
 
         public async Task DeleteAsync(Book book)
@@ -33,17 +34,22 @@ namespace SUT23LibraryProj.Repositories
             return await _db.Books.FirstOrDefaultAsync(b => b.BookID == id);
         }
 
-        public async Task<Book> GetByNameAsync(string title)
+        public async Task<Book> GetByTitleAsync(string title)
         {
-            return await _db.Books.FirstOrDefaultAsync(b => b.Title == title.ToLower());
+            return await _db.Books.FirstOrDefaultAsync(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task SaveAsync()
         {
-            await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync(); //Vi använde inte await här, why not?
         }
 
         public async Task UpdateAsync(Book book)
+        {
+            _db.Books.Update(book);
+        }
+
+        public async Task UpdateStockAsync(int id, Book book)
         {
             _db.Books.Update(book);
         }

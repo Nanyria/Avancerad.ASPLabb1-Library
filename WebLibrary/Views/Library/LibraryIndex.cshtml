@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BookDTO>
+@{
+    ViewData["Title"] = "Library Index";
+}
+
+
+<h1>View all Books</h1>
+<p>
+    <a asp-action="AddBook" class="btn btn-outline-primary"><i class="fa fa-plus"></i> Add new book to Library</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicationYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsInStock)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.BookID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsInStock)
+                </td>
+
+                <td>
+                    <a asp-action="BookDetails" class="btn btn-success" asp-route-id="@item.BookID">
+                    Book Details <i class="fa fa-info"></i>
+                    </a>
+                    <a asp-action="UpdateBookDetails" class="btn btn-warning" asp-route-id="@item.BookID">
+                    Edit book details <i class="fa fa-edit"></i>
+                    </a>
+                    <a asp-action="UpdateBookStock" class="btn btn-warning" asp-route-id="@item.BookID">
+                    Edit book stock <i class="fa fa-edit"></i>
+                    </a>
+                    <a asp-action="DeleteBook" class="btn btn-danger" asp-route-id="@item.BookID">
+                    Delete book from Library <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

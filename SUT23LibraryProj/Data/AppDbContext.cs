@@ -10,13 +10,42 @@ namespace SUT23LibraryProj.Data
 
         }
 
-        public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
-        public DbSet<Genre> Genres { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Book>().HasData(
+            new Book
+            {
+                BookID = 101,
+                Title = "The Great Gatsby",
+                Author = "F. Scott Fitzgerald",
+                Genre = "Fiction",
+                PublicationYear = 1925,
+                BookDescription = "Lorem Ipsum",
+                IsInStock = true
+            },
+            new Book
+            {
+                BookID = 102,
+                Title = "To Kill a Mockingbird",
+                Author = "Harper Lee",
+                Genre = "Fiction",
+                PublicationYear = 1960,
+                BookDescription = "Lorem Ipsum",
+                IsInStock = true
+            },
+            new Book
+            {
+                BookID = 103,
+                Title = "1984",
+                Author = "George Orwell",
+                Genre = "Fiction",
+                PublicationYear = 1949,
+                BookDescription = "Lorem Ipsum",
+                IsInStock = false
+            });
         }
     }
 }
