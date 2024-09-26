@@ -79,7 +79,7 @@ namespace WebLibrary.Services
             {
                 aPIType = StaticDetails.APIType.PUT,
                 Data = u_book_s_DTO,
-                Url = StaticDetails.LibraryAPIBase + "/api/book/stock" ,
+                Url = $"{StaticDetails.LibraryAPIBase}/api/book/{u_book_s_DTO.BookID}/stock",
                 AccessToken = "",
             });
         }

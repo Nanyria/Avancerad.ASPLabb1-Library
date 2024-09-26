@@ -41,10 +41,10 @@ namespace SUT23LibraryProj.EndPoints
                 .Produces<UpdateBookStockDTO>(200)
                 .Produces(400);
             //Anropar MapDelete-metoden för att skapa en endpoint för att ta bort en specifik kupong
-            //app.MapDelete("/api/book/{id:int}", )
-            //    .WithName("DeleteCoupon")
-            //    .Produces(204)
-            //    .Produces(400);
+            app.MapDelete("/api/book/{id:int}", DeleteBook)
+                .WithName("DeleteBook")
+                .Produces(204)
+                .Produces(400);
         }
         private async static Task<IResult> GetAllBooks(IBookRepo _bookRepo)
         {
@@ -116,27 +116,27 @@ namespace SUT23LibraryProj.EndPoints
             };
 
 
+            var existingBook = await _bookRepo.GetByIdAsync(u_book_DTO.BookID);
 
-            //if (_bookRepo.GetByNameAsync(u_coupon_dto.Name).GetAwaiter().GetResult() != null)
-            //{
-            //    response.ErrorMessages.Add("Coupon name already exists");
-            //    return Results.BadRequest(response);
-            //}
+            if (existingBook == null)
+            {
+                response.ErrorMessages.Add("Book not found");
+                return Results.NotFound(response);
+            }
 
-            await _bookRepo.UpdateAsync(_mapper.Map<Book>(u_book_DTO));
+            _mapper.Map(u_book_DTO, existingBook);
+
+            await _bookRepo.UpdateAsync(existingBook);
             await _bookRepo.SaveAsync();
 
-
-            response.Result = _mapper.Map<UpdateBookInfoDTO>(await _bookRepo.GetByIdAsync(u_book_DTO.BookID));
+            response.Result = _mapper.Map<UpdateBookInfoDTO>(existingBook);
             response.IsSuccess = true;
             response.StatusCode = System.Net.HttpStatusCode.OK;
 
             return Results.Ok(response);
 
         }
-
-        private async static Task<IResult> UpdateBookStock(IBookRepo _bookRepo,
-            IMapper _mapper, int id, UpdateBookStockDTO u_book_s_DTO)
+        private async static Task<IResult> UpdateBookStock(IBookRepo _bookRepo, int id, UpdateBookStockDTO u_book_s_DTO)
         {
             APIResponse response = new()
             {
@@ -144,44 +144,55 @@ namespace SUT23LibraryProj.EndPoints
                 StatusCode = System.Net.HttpStatusCode.BadRequest
             };
 
+            // Fetch the existing book from the repository
+            var existingBook = await _bookRepo.GetByIdAsync(id);
 
-            await _bookRepo.UpdateAsync(_mapper.Map<Book>(u_book_s_DTO));
+            if (existingBook == null)
+            {
+                response.ErrorMessages.Add("Book not found");
+                return Results.BadRequest(response);
+            }
+
+            // Update only the stock property
+            existingBook.IsInStock = u_book_s_DTO.IsInStock;
+
+            await _bookRepo.UpdateAsync(existingBook);
             await _bookRepo.SaveAsync();
 
-
-            response.Result = _mapper.Map<UpdateBookStockDTO>(await _bookRepo.GetByIdAsync(u_book_s_DTO.BookID));
+            response.Result = u_book_s_DTO;
             response.IsSuccess = true;
             response.StatusCode = System.Net.HttpStatusCode.OK;
 
             return Results.Ok(response);
+        }
 
-            //private async static Task<IResult> DeleteCoupon(ICouponRepo _couponRepo, int id)
-            //{
-            //    APIResponse response = new()
-            //    {
-            //        IsSuccess = false,
-            //        StatusCode = System.Net.HttpStatusCode.BadRequest
-            //    };
+        private async static Task<IResult> DeleteBook(IBookRepo _bookRepo, int id)
+        {
+            APIResponse response = new()
+            {
+                IsSuccess = false,
+                StatusCode = System.Net.HttpStatusCode.BadRequest
+            };
 
-            //    Coupon couponFromDb = await _couponRepo.GetByIdAsync(id);
+            Book Book = await _bookRepo.GetByIdAsync(id);
 
-            //    if (couponFromDb != null)
-            //    {
-            //        await _couponRepo.RemoveAsync(couponFromDb);
-            //        await _couponRepo.SaveAsync();
-            //        response.IsSuccess = true;
-            //        response.StatusCode = System.Net.HttpStatusCode.NoContent;
+            if (Book != null)
+            {
+                await _bookRepo.DeleteAsync(Book);
+                await _bookRepo.SaveAsync();
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.NoContent;
 
-            //        return Results.Ok(response);
-            //    }
-            //    else
-            //    {
-            //        response.ErrorMessages.Add("Invalid ID");
-            //        return Results.BadRequest(response);
-            //    }
+                return Results.Ok(response);
+            }
+            else
+            {
+                response.ErrorMessages.Add("Invalid Book ID");
+                return Results.BadRequest(response);
+            }
 
-            //}
         }
     }
 }
+
 

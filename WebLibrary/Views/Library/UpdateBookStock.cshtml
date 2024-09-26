@@ -2,69 +2,10 @@
 @model UpdateBookStockDTO
 <h1>Update Book Stock</h1>
 <hr />
-@* <div>
-    <dl class="row">
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BookID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.BookID)
-        </dd>
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.Title)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.Author)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.Genre)
-        </dd>
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BookDescription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.BookDescription)
-        </dd>
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PublicationYear)
-        </dt>
-
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.PublicationYear)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsInStock)
-        </dt>
-
-        <dd class="col-sm-10">
-            @Html.DisplayFor(Model => Model.IsInStock)
-        </dd>
-            </dl>
-
-</div> *@
 
 <form asp-action="UpdateBookStock">
     <!-- BookID field (hidden) -->
-    <input type="hidden" asp-for="BookID" />
+    <input asp-for="BookID" hidden />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
